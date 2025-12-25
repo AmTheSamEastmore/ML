@@ -1,12 +1,11 @@
 #   Main Library
 import time
 import random
-from playsound import playsound
+import simpleaudio as sa
 from random import randint
 from threading import Thread
 
 all = ['Cobra', 'Updates']
-version = ['0.0.0.0']
 
 class Cobra:
     def __init__(self):
@@ -73,7 +72,10 @@ class Cobra:
         return tore
 
     def sound(self,soundø):
-        playsound(soundø)
+        ''' Can only use .wav '''
+        wave = sa.WaveObject.from_wave_file(soundø)
+        play = wave.play()
+        play.wait_done()
     
     def slowPrint(self,messageø : str,upperø:bool = True,intervalø=0.5):
         '''It\'s a print that waits to put each letter, and if you set upperø to True it leaves spaces between letters'''
@@ -102,7 +104,7 @@ class Updates:
         self.funcList = []
         self.delay = delay
 
-    def __call__(self):
+    def funcs(self):
         for func in self.funcList:
             func()
 
@@ -111,9 +113,9 @@ class Updates:
 
     def updateStart(self):
         while True:
-            self()
+            self.funcs()
             time.sleep(self.delay)
 
-    def threadUpdate(self):
+    def __call__(self):
         thrd = Thread(target=self.updating, daemon=False)
         thrd.start()
