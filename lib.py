@@ -5,7 +5,7 @@ import simpleaudio as sa
 from random import randint
 from threading import Thread
 
-all = ['Cobra', 'Updates']
+all = ['Shortcut', 'Updates']
 
 class Shortcut:
     ''' This class has a wide variety of methods that may help you shorten things  '''
