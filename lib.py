@@ -7,7 +7,8 @@ from threading import Thread
 
 all = ['Cobra', 'Updates']
 
-class Cobra:
+class Shortcut:
+    ''' This class has a wide variety of methods that may help you shorten things  '''
     def __init__(self):
         self.letters = [chr(x) for x in range(97, 123)]
         self.block = chr(0x2586)
@@ -65,10 +66,11 @@ class Cobra:
             tore = tore + self.choose(self.letters)
         return tore
     
-    def ranl(self,qcharactersø:int = 5,qiø:int = 4):
+    def ranl(self,characters:int = 5,indexesNum:int = 4):
+        ''' Uses rans(characters) to make a list with indexesNum indexes'''
         tore = []
-        for _ in range(qiø):
-            tore.append(self.rans(qcharactersø))
+        for _ in range(indexesNum):
+            tore.append(self.rans(characters))
         return tore
 
     def sound(self,soundø):
@@ -100,6 +102,7 @@ class Cobra:
         return float(tore + '.' + str(self.number(0,9)))
     
 class Updates:
+    ''' Works like an update func, but more organized, do addFunc(func) to add a function and start it with nameOfObj(), delay is the seconds that pass between each execution of funcs '''
     def __init__(self, delay):
         self.funcList = []
         self.delay = delay
