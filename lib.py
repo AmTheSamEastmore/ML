@@ -13,93 +13,82 @@ class Shortcut:
         self.letters = [chr(x) for x in range(97, 123)]
         self.block = chr(0x2586)
 
-    def change(self,variableø,whatø) -> bool:
-        """Returns if variableø is ecual to whatø"""
-        return (variableø == whatø)
-
-    def between(self,thisø:float,lessø:float,moreø:float) -> bool:
-        """Returns if thisø is more than lessø and is less than moreø"""
-        return ((lessø<thisø<moreø))
-
-    def sleep(self,timeø:float):
+    def sleep(self,time:float):
         """Waits in seconds"""
-        time.sleep(timeø)
+        time.sleep(time)
 
-    def delay(self,timeø:float):
+    def delay(self,time:float):
         """Waits in miliseconds"""
-        timeø = timeø/1000
-        time.sleep(timeø)
+        time = time/1000
+        time.sleep(time)
     
-    def fastconfig(self,window:object,background:str = 'grey',title:str = 'tkinter window',size:str = '500x500',icon:str = "logggo.ico"):
+    def fastconfig(self,window:object,background:str = 'grey',title:str = 'Window',size:str = '500x500'):
         window.config(bg=background)
         window.title(title)
         window.geometry(size)
         window.resizable(False,False)
-        window.iconbitmap(icon)
 
-    def color(self) -> str:
+    def randColor(self):
         '''Returns a random color in hexadecimal'''
-        def hexa(r):
-            r = str(hex(r))[2:]
-            if (len(r) == 1):
-                r = '0' + r
-            return r
-        return f'#{hexa(randint(0,255))}{hexa(randint(0,255))}{hexa(randint(0,255))}'
+        def randHex():
+            tore = str(hex(randint(0,255)))[2:]
+            if (len(tore) == 1):
+                tore = '0' + tore
+            return tore
+        return f'#{randHex()}{randHex()}{randHex()}'
 
-    def randnum(self,leastø:int,maximumø:int) -> int:
-        '''Returns a random number between leastø and maximumø'''
-        return randint(leastø,maximumø)
+    def randNum(self,least:int,maximum:int) -> int:
+        '''Returns a random number between least and maximum'''
+        return randint(least,maximum)
 
-    def choose(self,fwhatø:list) -> any:
-        '''Chooses a random thing from fwhatø'''
-        return random.choice(fwhatø)
+    def choose(self,list:list) -> any:
+        '''Chooses a random thing from list'''
+        return random.choice(list)
 
-    def on(self,conditionø:bool,functionø,parameterø=None):
-        '''if conditionø is true, does functionø with parameterø as parameter'''
-        if (conditionø):
-            functionø(parameterø)
+    def on(self,condition:bool,func:function):
+        '''if condition is true, executes func'''
+        if (condition):
+            func()
 
-    def rans(self,charactersø:int = 5) -> str:
-        '''Returns a random string with determinate characters(determined by charactersø)'''
+    def ranStr(self,chars:int = 5) -> str:
+        '''Returns a random string with chars characters'''
         tore = ''
-        for _ in range(charactersø):
+        for _ in range(chars):
             tore = tore + self.choose(self.letters)
         return tore
     
-    def ranl(self,characters:int = 5,indexesNum:int = 4):
+    def ranList(self,characters:int = 5,indexesNum:int = 4):
         ''' Uses rans(characters) to make a list with indexesNum indexes'''
         tore = []
         for _ in range(indexesNum):
             tore.append(self.rans(characters))
         return tore
 
-    def sound(self,soundø):
-        ''' Can only use .wav '''
-        wave = sa.WaveObject.from_wave_file(soundø)
+    def sound(self,sound):
+        ''' Plays a WAW '''
+        wave = sa.WaveObject.from_wave_file(sound)
         play = wave.play()
         play.wait_done()
     
-    def slowPrint(self,messageø : str,upperø:bool = True,intervalø=0.5):
-        '''It\'s a print that waits to put each letter, and if you set upperø to True it leaves spaces between letters'''
-        if (upperø):
-            for letter in messageø:
+    def slowPrint(self, message:str, upper:bool = True, delay:int = 0.5):
+        '''It\'s a print that waits in between printing each letter, and if you set upper to True it leaves spaces between letters and makes them uppercase'''
+        for letter in message:
+            if upper:
                 print(letter.capitalize(),end=' ')
-                self.sec(intervalø)
-            print('')
-        elif (not(upperø)):
-            for letter in messageø:
+            else:
                 print(letter,end='')
-                self.sec(intervalø)
-            print('')
+            time.sleep(delay)
+        print('')
     
-    def amap(self,x,in_min,in_max,out_min,out_max) -> int:
+    def aMap(self, x, min, max, new_min, new_max) -> int:
         """Arduino\'s map"""
-        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+        return (x - min) * (new_max - new_min) / (max - min) + new_min
         
-    def randflo(self,leastø:int,maximumø:int) -> float:
-        '''Returns a random number between leastø and maximumø(including floats)'''
-        tore = str(randint(leastø,maximumø))
-        return float(tore + '.' + str(self.number(0,9)))
+    def randFlo(self, least:int, max:int, decimals:int):
+        '''Returns a random number between least and maximum with decimals decimals'''
+        tore = f'{str(randint(least,max))}.'
+        for _ in range(decimals):
+            tore = f'{tore}{randint(0,9)}'
     
 class Updates:
     ''' Works like an update func, but more organized, do addFunc(func) to add a function and start it with nameOfObj(), delay is the seconds that pass between each execution of funcs '''
@@ -107,7 +96,7 @@ class Updates:
         self.funcList = []
         self.delay = delay
 
-    def funcs(self):
+    def doFuncs(self):
         for func in self.funcList:
             func()
 
