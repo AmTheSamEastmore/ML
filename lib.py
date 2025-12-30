@@ -1,8 +1,5 @@
 #   Main Library
-import time
-import random
-import simpleaudio as sa
-from random import randint
+import time, random, simpleaudio, random
 from threading import Thread
 
 all = ['Shortcut', 'Updates']
@@ -11,6 +8,8 @@ class Shortcut:
     ''' This class has a wide variety of methods that may help you shorten things  '''
     def __init__(self):
         self.letters = [chr(x) for x in range(97, 123)]
+        self.vouels = ['a', 'e', 'i', 'o', 'u']
+        self.vouelsWithAccent = ['á', 'é', 'í', 'ó', 'ú']
         self.block = chr(0x2586)
 
     def sleep(self,secs:float):
@@ -22,31 +21,31 @@ class Shortcut:
         milis = milis/1000
         time.sleep(milis)
     
-    def fastconfig(self,window:object,background:str = 'grey',title:str = 'Window',size:str = '500x500'):
+    def fastconfig(self,window:object,background:str = 'grey',title:str = 'Window',size:str = '500x500', resize:bool = False):
         window.config(bg=background)
         window.title(title)
         window.geometry(size)
-        window.resizable(False,False)
+        window.resizable(resize,resize)
 
     def randColor(self):
         '''Returns a random color in hexadecimal'''
         def randHex():
-            tore = str(hex(randint(0,255)))[2:]
+            tore = str(hex(random.randint(0,255)))[2:]
             if (len(tore) == 1):
-                tore = '0' + tore
+                tore = f'0{tore}'
             return tore
         return f'#{randHex()}{randHex()}{randHex()}'
 
     def randNum(self,least:int,maximum:int) -> int:
         '''Returns a random number between least and maximum'''
-        return randint(least,maximum)
+        return random.randint(least,maximum)
 
-    def choose(self,list:list) -> any:
+    def randIndex(self,list:list):
         '''Chooses a random thing from list'''
         return random.choice(list)
 
     def on(self,condition:bool,func):
-        '''If condition is true, executes func'''
+        '''An If packed into a function'''
         if (condition):
             func()
 
@@ -65,8 +64,8 @@ class Shortcut:
         return tore
 
     def sound(self,sound):
-        ''' Plays a WAW '''
-        wave = sa.WaveObject.from_wave_file(sound)
+        ''' Plays a WAW file '''
+        wave = simpleaudio.WaveObject.from_wave_file(sound)
         play = wave.play()
         play.wait_done()
     
@@ -86,9 +85,9 @@ class Shortcut:
         
     def randFlo(self, least:int, max:int, decimals:int):
         '''Returns a random number between least and maximum with decimals decimals'''
-        tore = f'{str(randint(least,max))}.'
+        tore = f'{str(random.randint(least,max))}.'
         for _ in range(decimals):
-            tore = f'{tore}{randint(0,9)}'
+            tore = f'{tore}{random.randint(0,9)}'
         return tore
     
 class Updates:
