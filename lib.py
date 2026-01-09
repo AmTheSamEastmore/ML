@@ -9,8 +9,6 @@ class Shortcut:
     def __init__(self):
         self.letters = [chr(x) for x in range(97, 123)]
         self.vouels = ['a', 'e', 'i', 'o', 'u']
-        self.vouelsWithAccent = ['á', 'é', 'í', 'ó', 'ú']
-        self.block = chr(0x2586)
 
     def sleep(self,secs:float):
         """Waits in seconds"""
@@ -18,10 +16,9 @@ class Shortcut:
 
     def delay(self,milis:float):
         """Waits in miliseconds"""
-        milis = milis/1000
-        time.sleep(milis)
+        time.sleep(milis/1000)
     
-    def fastconfig(self,window:object,background:str = 'grey',title:str = 'Window',size:str = '500x500', resize:bool = False):
+    def fastconfig(self,window:object, title:str = 'Window', size:str = '500x500', background:str = 'grey', resize:bool = False):
         window.config(bg=background)
         window.title(title)
         window.geometry(size)
@@ -44,11 +41,6 @@ class Shortcut:
         '''Chooses a random thing from list'''
         return random.choice(list)
 
-    def on(self,condition:bool,func):
-        '''An If packed into a function'''
-        if (condition):
-            func()
-
     def ranStr(self,chars:int = 5) -> str:
         '''Returns a random string with chars characters'''
         tore = ''
@@ -56,12 +48,24 @@ class Shortcut:
             tore = tore + self.choose(self.letters)
         return tore
     
-    def ranList(self,characters:int = 5,indexesNum:int = 4):
-        ''' Uses rans(characters) to make a list with indexesNum indexes'''
+    def ranList(self,characters:int = 5, length:int = 4):
+        ''' Uses rans(characters) to make a list with length indexes'''
         tore = []
-        for _ in range(indexesNum):
+        for _ in range(length):
             tore.append(self.rans(characters))
         return tore
+    
+    def randFlo(self, least:int, max:int, decimals:int):
+        '''Returns a random number between least and maximum with decimals decimals'''
+        tore = f'{str(random.randint(least,max))}.'
+        for _ in range(decimals):
+            tore = f'{tore}{random.randint(0,9)}'
+        return tore
+    
+    def on(self,condition:bool,func):
+        '''An If packed into a function'''
+        if (condition):
+            func()
 
     def sound(self,sound):
         ''' Plays a WAW file '''
@@ -82,13 +86,6 @@ class Shortcut:
     def aMap(self, x, min, max, new_min, new_max) -> int:
         """Arduino\'s map"""
         return (x - min) * (new_max - new_min) / (max - min) + new_min
-        
-    def randFlo(self, least:int, max:int, decimals:int):
-        '''Returns a random number between least and maximum with decimals decimals'''
-        tore = f'{str(random.randint(least,max))}.'
-        for _ in range(decimals):
-            tore = f'{tore}{random.randint(0,9)}'
-        return tore
     
 class Updates:
     ''' Works like an update func, but more organized, do addFunc(func) to add a function and start it with nameOfObj(), delay is the seconds that pass between each execution of funcs '''
