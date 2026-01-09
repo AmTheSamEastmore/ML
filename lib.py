@@ -5,7 +5,7 @@ from threading import Thread
 all = ['Shortcut', 'Updates']
 
 class Shortcut:
-    ''' This class has a wide variety of methods that may help you shorten things  '''
+    ''' This class has a wide variety of shortcuts  '''
     def __init__(self):
         self.letters = [chr(x) for x in range(97, 123)]
         self.vouels = ['a', 'e', 'i', 'o', 'u']
@@ -45,14 +45,14 @@ class Shortcut:
         '''Returns a random string with chars characters'''
         tore = ''
         for _ in range(chars):
-            tore = tore + self.choose(self.letters)
+            tore += random.choice(self.letters)
         return tore
     
     def ranList(self,characters:int = 5, length:int = 4):
-        ''' Uses rans(characters) to make a list with length indexes'''
+        ''' Uses randStr(characters) to make a list with length indexes'''
         tore = []
         for _ in range(length):
-            tore.append(self.rans(characters))
+            tore.append(self.ranStr(characters))
         return tore
     
     def randFlo(self, least:int, max:int, decimals:int):
@@ -94,6 +94,7 @@ class Updates:
         self.delay = miliDelay/1000
 
     def doFuncs(self):
+        '''Executes every function'''
         for func in self.funcList:
             func()
 
@@ -102,11 +103,12 @@ class Updates:
         self.funcList.append(func)
 
     def updateStart(self):
+        '''Starts everything, but not on a different thread'''
         while True:
             self.doFuncs()
             time.sleep(self.delay)
 
     def __call__(self):
-        '''Starts the cicle'''
+        '''Starts the cicle, on a different thread'''
         thrd = Thread(target=self.updateStart, daemon=False)
         thrd.start()
